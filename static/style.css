@@ -1,0 +1,98 @@
+/* ============================================================
+   OOTP DB Explorer — Custom Styles
+   ============================================================ */
+
+/* ---- Sidebar ---- */
+.sidebar {
+  height: calc(100vh - 56px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+}
+
+.sidebar-link {
+  font-size: 0.82rem;
+  padding: 0.3rem 1rem;
+  color: #444;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-link:hover {
+  background-color: #e9f0ff;
+  color: #0d6efd;
+}
+
+.sidebar-link.active {
+  background-color: #0d6efd;
+  color: #fff;
+  border-radius: 4px;
+}
+
+/* ---- Data tables ---- */
+.data-table {
+  font-size: 0.82rem;
+}
+
+.sticky-header th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.cell-value {
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---- FK links ---- */
+.fk-link {
+  color: #0d6efd;
+  text-decoration: none;
+  border-bottom: 1px dashed #0d6efd;
+}
+
+.fk-link:hover {
+  background-color: #e9f0ff;
+  border-radius: 3px;
+}
+
+/* ---- Record detail ---- */
+.record-table td,
+.record-table th {
+  font-size: 0.875rem;
+  vertical-align: middle;
+}
+
+/* ---- Related tables ---- */
+.related-table {
+  font-size: 0.8rem;
+}
+
+.related-card {
+  border-left: 3px solid #0dcaf0;
+}
+
+/* ---- Table cards on index ---- */
+.table-card:hover {
+  border-color: #0d6efd;
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.15) !important;
+  transition: box-shadow 0.2s ease;
+}
+
+/* ---- Extra-small button ---- */
+.btn-xs {
+  padding: 0.15rem 0.4rem;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+/* ---- Responsive tweaks ---- */
+@media (max-width: 767px) {
+  .sidebar {
+    height: auto;
+  }
+}
