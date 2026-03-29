@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}OOTP DB Explorer{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap.min.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap-icons.min.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <!-- Top navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top shadow-sm">
+    <div class="container-fluid px-3">
+      <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">
+        <i class="bi bi-database-fill-gear me-1"></i> OOTP DB Explorer
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarCollapse"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <span class="navbar-text ms-auto text-white-50 small">
+          <i class="bi bi-table me-1"></i>{{ all_tables | length }} tables
+        </span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar: table list -->
+      <nav
+        id="sidebar"
+        class="col-md-3 col-lg-2 d-md-block bg-light sidebar border-end"
+      >
+        <div class="position-sticky pt-3">
+          <p class="sidebar-heading text-muted fw-semibold px-3 mb-1 small text-uppercase">
+            Tables
+          </p>
+          <ul class="nav flex-column">
+            {% for tbl in all_tables %}
+            <li class="nav-item">
+              <a
+                class="nav-link sidebar-link {% if request.view_args and request.view_args.get('table_name') == tbl %}active{% endif %}"
+                href="{{ url_for('browse_table', table_name=tbl) }}"
+              >
+                <i class="bi bi-table me-1 text-muted"></i>{{ tbl }}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Main content -->
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-3">
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='vendor/bootstrap.bundle.min.js') }}"></script>
+</body>
+</html>
