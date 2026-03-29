@@ -77,7 +77,7 @@
             {% set ref_table = fk_map[col][0] %}
             {% set ref_col = fk_map[col][1] %}
             <a
-              href="{{ url_for('browse_table', table_name=ref_table) }}?search={{ val }}"
+              href="{{ url_for('lookup_record', table_name=ref_table, column=ref_col, value=val|string) }}"
               class="fk-link"
               title="View in {{ ref_table }}.{{ ref_col }}"
             >{{ val }}</a>

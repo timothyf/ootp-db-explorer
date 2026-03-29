@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, abort
+from flask import Flask, render_template, request, abort, redirect, url_for
 from sqlalchemy import create_engine, inspect, text, MetaData
 from sqlalchemy.exc import OperationalError, SQLAlchemyError
 from functools import lru_cache
@@ -254,6 +254,41 @@ def view_record(table_name, pk_value):
         return render_template('error.html', error=str(exc)), 500
 
 
+@app.route('/table/<table_name>/lookup/<column>/<path:value>')
+def lookup_record(table_name, column, value):
+    """Resolve a row by column/value and redirect to its record detail page."""
+    validate_table(table_name)
+
+    try:
+        columns, pk_cols, _ = get_table_meta(table_name)
+        col_names = [c['name'] for c in columns]
+
+        if not pk_cols:
+            abort(400)
+        if column not in col_names:
+            abort(404)
+
+        select_pk_cols = ', '.join([f"`{col}`" for col in pk_cols])
+        with engine.connect() as conn:
+            row = conn.execute(
+                text(
+                    f"SELECT {select_pk_cols} FROM `{table_name}`"
+                    f" WHERE `{column}` = :value LIMIT 1"
+                ),
+                {'value': value},
+            ).fetchone()
+
+        if row is None:
+            abort(404)
+
+        pk_path = '/'.join([str(v) for v in row])
+        return redirect(
+            url_for('view_record', table_name=table_name, pk_value=pk_path)
+        )
+    except SQLAlchemyError as exc:
+        return render_template('error.html', error=str(exc)), 500
+
+
 # ---------------------------------------------------------------------------
 # Template helpers
 # ---------------------------------------------------------------------------
@@ -274,4 +309,4 @@ def inject_tables():
 
 
 if __name__ == '__main__':
-    app.run(debug=config.DEBUG, host='0.0.0.0', port=5000)
+    app.run(debug=config.DEBUG, host='0.0.0.0', port=3000)

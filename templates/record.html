@@ -54,7 +54,7 @@
                   {% set ref_table = fk_targets[col][0] %}
                   {% set ref_col   = fk_targets[col][1] %}
                   <a
-                    href="{{ url_for('view_record', table_name=ref_table, pk_value=val) }}"
+                    href="{{ url_for('lookup_record', table_name=ref_table, column=ref_col, value=val|string) }}"
                     class="fk-link"
                     title="View {{ ref_table }} record {{ val }}"
                   >{{ val }}</a>
